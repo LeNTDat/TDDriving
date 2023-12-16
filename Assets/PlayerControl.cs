@@ -6,14 +6,16 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     float rotationVal = 120f;
-    float moveSpeed = 10f;
-    // Start is called before the first frame update
+    [SerializeField] float moveSpeed = 18f;
+    float slowDownSpeed = 9f;
+    float bootsSpeed = 30f;
+    public bool hasCollision = false;
+
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         move();
@@ -24,14 +26,9 @@ public class PlayerControl : MonoBehaviour
     {
         float horizontalVal = Input.GetAxis("Horizontal") * rotationVal * Time.deltaTime;
         float verticalVal = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
-
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
-        {
-            transform.Rotate(0, 0, -horizontalVal);
-        }
-        if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S)) {
-            transform.Translate(0, verticalVal, 0);
-        }
-       
+        transform.Rotate(0, 0, -horizontalVal);
+        transform.Translate(0, verticalVal, 0);
     }
+
+
 }

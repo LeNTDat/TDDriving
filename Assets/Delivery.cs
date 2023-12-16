@@ -5,18 +5,38 @@ using UnityEngine;
 
 public class Delivery : MonoBehaviour
 {
-    void OnCollisionEnter2D(Collision2D collision)
+    bool hasPackage = false;
+    float delayTime = 0.5f;
+    Color defaultColor = Color.white;
+    SpriteRenderer spriteRenderer;
+
+    void Start()
     {
-        print("What hit this shit!! it's a " + collision.transform.name);
-        print("this shit is a " + transform.name);
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        print(collision.transform.name);
-        if (collision.transform.name == "Package")
+        if (collision.tag == "Package")
         {
-            print("you pick up a " + collision.transform.name);
+            Color packageColor = collision.GetComponent<SpriteRenderer>().color;
+            Destroy(collision.gameObject, delayTime);
+            spriteRenderer.color = packageColor;
+            hasPackage = true;
         }
+
+        if(collision.tag == "Customer" && hasPackage)
+        {
+            spriteRenderer.color = defaultColor;
+
+        }
+        
+        if(collision.tag == "Boost")
+        {
+            gameObject.GetComponent<PlayerControl>().hasCollision = true;
+        }
+
+
+
     }
 }
